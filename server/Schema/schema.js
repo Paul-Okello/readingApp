@@ -1,13 +1,41 @@
 const graphql = require("graphql");
+const _ = require("lodash");
 
-const { GraphQLObjectType, GraphQLString } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+} = graphql;
 
+const books = [
+  { name: "All Or Nothing", genre: "Fantasy", id: "1", authorId: "1" },
+  { name: "Final Dance", genre: "Fantasy", id: "2", authorId: "2" },
+  { name: "Twice As Tall", genre: "Fantasy", id: "3", authorId: "3" },
+  { name: "Available", genre: "Fantasy", id: "4", authorId: "4" },
+  { name: "The Flash", genre: "SCI-FI", id: "5", authorId: "3" },
+  { name: "The Two of Us:", genre: "Drama", id: "6", authorId: "" },
+];
+const authors = [
+  { name: "John Bull", age: 44, id: "1" },
+  { name: "Jeanie Buss", age: 34, id: "2" },
+  { name: "Joseph Leting", age: 87, id: "3" },
+  { name: "Louis Ceaser", age: 74, id: "4" },
+];
 const BookType = new GraphQLObjectType({
   name: "Book",
   fields: () => ({
-    id: { type: GraphQLString },
+    id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
+    author: {
+      type: AuthorType,
+      resolve(parent, args) {
+        return _.find(authors, { id: parent.authorId });
+      },
+    },
   }),
 });
 const AuthorType = new GraphQLObjectType({
@@ -16,6 +44,12 @@ const AuthorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return _.filter(books, { authorId: parent.id });
+      },
+    },
   }),
 });
 
@@ -37,5 +71,21 @@ const RootQuery = new GraphQLObjectType({
         return _.find(authors, { id: args.id });
       },
     },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return books;
+      },
+    },
+    authors: {
+      type: new GraphQLList(AuthorType),
+      resolve(parent, args) {
+        return authors;
+      },
+    },
   },
+});
+
+module.exports = new GraphQLSchema({
+  query: RootQuery,
 });
