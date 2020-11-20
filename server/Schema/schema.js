@@ -15,8 +15,8 @@ const books = [
   { name: "Final Dance", genre: "Fantasy", id: "2", authorId: "2" },
   { name: "Twice As Tall", genre: "Fantasy", id: "3", authorId: "3" },
   { name: "Available", genre: "Fantasy", id: "4", authorId: "4" },
-  { name: "The Flash", genre: "SCI-FI", id: "5", authorId: "5" },
-  { name: "The Two of Us:", genre: "Drama", id: "6", authorId: "5" },
+  { name: "The Flash", genre: "SCI-FI", id: "5", authorId: "3" },
+  { name: "The Two of Us:", genre: "Drama", id: "6", authorId: "" },
 ];
 const authors = [
   { name: "John Bull", age: 44, id: "1" },
