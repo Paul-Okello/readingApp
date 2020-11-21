@@ -13,13 +13,25 @@ const GET_BOOKS_QUERY = gql`
 function BookList() {
   const { loading, error, data } = useQuery(GET_BOOKS_QUERY);
 
-  return (
-    <div>
-      <ul className="book__list">
-        <li>Book Name</li>
-      </ul>
-    </div>
-  );
+  if (loading) {
+    return <div>Loading books...</div>;
+  } else if (data) {
+    return data.books.map((book) => {
+      return (
+        <div>
+          <ul className="book__list">
+            <li>
+              <Typography key={book.id} variant="h5">
+                {book.name}
+              </Typography>
+            </li>
+          </ul>
+        </div>
+      );
+    });
+  } else {
+    return `Error! ${error}`;
+  }
 }
 
 export default BookList;
