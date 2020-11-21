@@ -1,4 +1,14 @@
 import React from "react";
+import { gql } from "@apollo/client";
+
+const getBooksQuery = gql`
+  {
+    books {
+      name
+      id
+    }
+  }
+`;
 
 function BookList() {
   return (
