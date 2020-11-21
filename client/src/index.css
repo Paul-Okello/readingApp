@@ -15,5 +15,5 @@ code {
     monospace;
 }
 .book__list {
-  list-style-type: none;
+  list-style-type: disc;
 }
