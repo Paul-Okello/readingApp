@@ -1,14 +1,7 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
-
-const GET_BOOKS_QUERY = gql`
-  {
-    books {
-      name
-      id
-    }
-  }
-`;
+import Typography from "@material-ui/core/Typography";
+import { GET_BOOKS_QUERY } from "../querries/querries";
+import { useQuery } from "@apollo/client";
 
 function BookList() {
   const { loading, error, data } = useQuery(GET_BOOKS_QUERY);
@@ -18,15 +11,13 @@ function BookList() {
   } else if (data) {
     return data.books.map((book) => {
       return (
-        <div>
-          <ul className="book__list">
-            <li>
-              <Typography key={book.id} variant="h5">
-                {book.name}
-              </Typography>
-            </li>
-          </ul>
-        </div>
+        <ul className="book__list">
+          <li>
+            <Typography variant="h5" key={book.id}>
+              {book.name}
+            </Typography>
+          </li>
+        </ul>
       );
     });
   } else {
