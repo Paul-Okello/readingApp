@@ -21,6 +21,16 @@ function AddBook() {
       return `Error! ${error}`;
     }
   }
+  function submitForm(e) {
+    e.preventDefault();
+    addBook({
+      variables: {
+        name,
+        genre,
+        authorId,
+      },
+    });
+  }
 
   return (
     <form action="" id="add__book">
