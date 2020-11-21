@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { Button } from "@material-ui/core";
 import React from "react";
 import { GET_AUTHORS_QUERY } from "../querries/querries";
 
@@ -14,11 +15,7 @@ function AddBook() {
       );
     } else if (data) {
       return data.authors.map((author) => {
-        return (
-          <option key={author.id}>
-            <p>{author.name}</p>
-          </option>
-        );
+        return <option key={author.id}>{author.name}</option>;
       });
     } else {
       return `Error! ${error}`;
@@ -39,8 +36,12 @@ function AddBook() {
         <label htmlFor="">Author</label>
         <select name="" id="">
           <option value="">Select Author</option>
+          {displayAuthors()}
         </select>
       </div>
+      <Button variant="outlined" color="primary">
+        +
+      </Button>
     </form>
   );
 }
