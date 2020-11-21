@@ -1,4 +1,6 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
+import { GET_AUTHORS_QUERY } from "../querries/querries";
 
 function AddBook() {
   const { loading, data, error } = useQuery(GET_AUTHORS_QUERY);
