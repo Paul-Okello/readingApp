@@ -1,10 +1,18 @@
-import { useQuery } from "@apollo/client";
-import { Button } from "@material-ui/core";
-import React from "react";
-import { GET_AUTHORS_QUERY } from "../querries/querries";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useState } from "react";
+import {
+  GET_AUTHORS_QUERY,
+  ADD_BOOK_MUTATION,
+  GET_BOOKS_QUERY,
+} from "../querries/querries";
 
 function AddBook() {
+  const [name, setName] = useState("");
+  const [genre, setGenre] = useState("");
+  const [authorId, setAuthorId] = useState("");
+
   const { loading, data, error } = useQuery(GET_AUTHORS_QUERY);
+  const [addBook] = useMutation(ADD_BOOK_MUTATION);
 
   function displayAuthors() {
     if (loading) {
@@ -29,29 +37,28 @@ function AddBook() {
         genre,
         authorId,
       },
+      refetchQueries: [{ query: GET_BOOKS_QUERY }],
     });
   }
 
   return (
-    <form action="" id="add__book">
+    <form action="" id="add__book" onSubmit={submitForm}>
       <div className="field">
         <label htmlFor="">Book Name</label>
-        <input type="text" />
+        <input type="text" onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="field">
         <label htmlFor="">Genre</label>
-        <input type="text" />
+        <input type="text" onChange={(e) => setGenre(e.target.value)} />
       </div>
       <div className="field">
         <label htmlFor="">Author</label>
-        <select name="" id="">
+        <select name="" id="" onChange={(e) => setAuthorId(e.target.value)}>
           <option value="">Select Author</option>
           {displayAuthors()}
         </select>
       </div>
-      <Button variant="outlined" color="primary">
-        +
-      </Button>
+      <button>+</button>
     </form>
   );
 }
